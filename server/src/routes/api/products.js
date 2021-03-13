@@ -1,59 +1,21 @@
 const express = require('express');
 const { Router } = express;
-const Product = require('../../models/Product');
+const productController = require('../../controllers/productController');
 
 const router = Router();
 
+router.get('/', productController.product_api_info);
+
 // Get all
-router.get('/products', async (req, res) => {
-  Product.find((err, docs) => {
-    if (err) {
-      console.log(err);
-      res.status(400).json(err);
-    }
-    res.json(docs);
-  });
-});
+router.get('/products', productController.product_all);
 
 // Get an product
-router.get('/product/:id', async (req, res) => {
-  const { id } = req.params;
-
-  Product.findById(id, (err, doc) => {
-    if (err) {
-      res.status(400).json({ message: 'No Product Found' });
-    }
-    res.json(doc);
-  });
-});
+router.get('/product/:id', productController.product_detail);
 
 // Add Product
-router.post('/product', async (req, res) => {
-  const product = new Product(req.body);
-
-  try {
-    const response = await product.save();
-    console.log(response);
-    res.status(200).json(response);
-  } catch (error) {
-    res.status(200).json(error);
-  }
-});
+router.post('/product/add', productController.product_add);
 
 // Delete Product
-router.delete('/product/:id', async (req, res) => {
-  const { id } = req.params;
-
-  try {
-    const result = await Product.findByIdAndDelete(id);
-    if (result) {
-      res.status(200).json(result);
-    } else {
-      res.status(400).json({ message: 'No Product Found' });
-    }
-  } catch (error) {
-    res.status(400).json({ message: 'No Product Found' });
-  }
-});
+router.delete('/product/:id', productController.product_delete);
 
 module.exports = router;
