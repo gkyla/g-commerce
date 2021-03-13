@@ -1,11 +1,13 @@
 const express = require('express');
 const morgan = require('morgan');
-const path = require('path');
 const mongoose = require('mongoose');
 const productsRoute = require('./routes/api/products');
+const authRoute = require('./routes/authRoute');
+const helmet = require('helmet');
 require('dotenv').config();
 
 const app = express();
+app.use(helmet());
 app.use(express.json());
 
 mongoose
@@ -22,9 +24,8 @@ app.listen(port, () => {
 });
 
 app.get('/', (req, res) => {
-  res.json({
-    message: 'halo',
-  });
+  res.redirect('/api');
 });
 
 app.use('/api', productsRoute);
+app.use('/auth', authRoute);
