@@ -18,9 +18,25 @@ const userSchema = new Schema({
   },
 });
 
-userSchema.pre('save', function (next) {
+userSchema.pre('save', async function (next) {
   console.log(this);
+  const salt = await bcrypt.genSalt(12);
+  this.password = await bcrypt.hash(this.password, salt);
+  next();
 });
+
+userSchema.statics.login = async function (email, password) {
+  const user = await this.findOne({ email }); // find one document
+  console.log(user);
+  if (user) {
+    const auth = await bcrypt.compare(password, user.password);
+    if (auth) {
+      return user;
+    }
+    throw Error('Invalid Password');
+  }
+  throw Error('Invalid Email');
+};
 
 const User = model('user', userSchema);
 

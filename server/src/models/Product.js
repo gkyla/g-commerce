@@ -1,7 +1,5 @@
 const mongoose = require('mongoose');
 const { Schema, model } = mongoose;
-const bcrypt = require('bcrypt');
-const jwt = require('jsonwebtoken');
 
 const productSchema = new Schema(
   {
@@ -20,10 +18,6 @@ const productSchema = new Schema(
   },
   { timestamps: true }
 );
-
-productSchema.pre('save', function (next) {
-  next();
-});
 
 const Product = model('product', productSchema);
 
