@@ -1,3 +1,4 @@
+const path = require('path');
 const express = require('express');
 const mongoose = require('mongoose');
 const productsRoute = require('./routes/api/products');
@@ -34,3 +35,12 @@ app.get('/', (req, res) => {
 });
 app.use('/api', productsRoute);
 app.use('/auth', authRoute);
+
+if (process.env.NODE_ENV === 'production') {
+  app.use(express.static('public'));
+
+  // Todo handling SPA
+  app.get(/.*/, (req, res) => {
+    res.sendFile(path.resolve(__dirname, '../public/index.html'));
+  });
+}
