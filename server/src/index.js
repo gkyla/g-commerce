@@ -29,6 +29,7 @@ app.listen(port, () => {
 
 app.use('*', checkUser);
 app.get('/', (req, res) => {
+  console.log('test');
   res.redirect('/api');
 });
 app.use('/api', productsRoute);

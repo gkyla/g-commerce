@@ -23,14 +23,18 @@ const checkUser = (req, res, next) => {
   if (token) {
     jwt.verify(token, process.env.JWT_SECRET, async (err, decodedToken) => {
       if (err) {
-        console.log(err.message);
+        console.log(err.message, 'wow ini dari check user');
         // should un inject the data to front End
         next();
       } else {
         // If verified, get user info
-        const user = await User.findById(decodedToken.id);
-        console.log(user);
-        next();
+        try {
+          const user = await User.findById(decodedToken.id);
+          console.log(user, 'test');
+          next();
+        } catch (error) {
+          console.log(error);
+        }
       }
     });
   } else {
