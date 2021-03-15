@@ -21,6 +21,7 @@ const checkUser = (req, res, next) => {
   // Get JWT Cookie
   const { jwt: token } = req.cookies;
   if (token) {
+    console.log('ada token');
     jwt.verify(token, process.env.JWT_SECRET, async (err, decodedToken) => {
       if (err) {
         console.log(err.message, 'wow ini dari check user');
@@ -39,6 +40,7 @@ const checkUser = (req, res, next) => {
     });
   } else {
     // should inject the data to front End
+    console.log('ngga ada token');
     next();
   }
 };

@@ -6,10 +6,12 @@ const authRoute = require('./routes/authRoute');
 const { checkUser } = require('./middlewares/authMiddleware');
 const helmet = require('helmet');
 const cookieParser = require('cookie-parser');
+const history = require('connect-history-api-fallback');
 require('dotenv').config();
 
 const app = express();
 app.use(helmet());
+app.use(express.static('public'));
 app.use(cookieParser());
 app.use(express.json());
 
@@ -28,19 +30,15 @@ app.listen(port, () => {
   console.log(`app listen on ${port}`);
 });
 
-app.use('*', checkUser);
-app.get('/', (req, res) => {
-  console.log('test');
-  res.redirect('/api');
-});
+app.get('*', checkUser);
+
 app.use('/api', productsRoute);
 app.use('/auth', authRoute);
 
-if (process.env.NODE_ENV === 'production') {
-  app.use(express.static('public'));
+// if (process.env.NODE_ENV === 'production') {
+//   // Todo handling SPA
 
-  // Todo handling SPA
-  app.get(/.*/, (req, res) => {
-    res.sendFile(path.resolve(__dirname, '../public/index.html'));
-  });
-}
+// }
+app.get(/.*/, (req, res) => {
+  res.sendFile(path.resolve(__dirname, '../public/index.html'));
+});
