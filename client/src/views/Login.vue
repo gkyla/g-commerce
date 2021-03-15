@@ -54,10 +54,11 @@ export default {
     // Todo handle proxy
 
     function login() {
+      console.log(password.value, email.value);
       axios
-        .post("auth/login", {
-          password,
-          email,
+        .post("/auth/login", {
+          password: password.value,
+          email: email.value,
         })
         .then((response) => {
           console.log(response);
