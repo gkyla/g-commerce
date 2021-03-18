@@ -1,5 +1,7 @@
 import { createRouter, createWebHistory } from 'vue-router';
 import Home from '../views/Home.vue';
+import { useStore } from 'vuex';
+const store = useStore();
 
 const routes = [
   {
@@ -17,6 +19,12 @@ const routes = [
       import(/* webpackChunkName: "about" */ '../views/About.vue'),
   },
   {
+    path: '/dashboard',
+    name: 'Dashboard',
+    component: () =>
+      import(/* webpackChunkName: "about" */ '../views/Dashboard.vue'),
+  },
+  {
     path: '/login',
     name: 'Login',
     component: () =>
@@ -27,6 +35,14 @@ const routes = [
 const router = createRouter({
   history: createWebHistory(process.env.BASE_URL),
   routes,
+});
+
+router.beforeEach((to, from, next) => {
+  if (to.path === '/dashboard' && !store.state.token) {
+    next('/login ');
+  } else {
+    next();
+  }
 });
 
 export default router;

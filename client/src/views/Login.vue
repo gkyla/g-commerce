@@ -43,14 +43,15 @@
 </template>
 
 <script>
-import { ref } from "vue";
+import { reactive, ref } from "vue";
 import axios from "axios";
+import { useRouter } from "vue-router";
 
 export default {
   setup() {
     const password = ref(null);
     const email = ref(null);
-
+    const router = useRouter();
     // Todo handle proxy
 
     function login() {
@@ -62,6 +63,7 @@ export default {
         })
         .then((response) => {
           console.log(response);
+          router.push("/");
         });
     }
 

@@ -6,14 +6,20 @@ const authRoute = require('./routes/authRoute');
 const { checkUser } = require('./middlewares/authMiddleware');
 const helmet = require('helmet');
 const cookieParser = require('cookie-parser');
-const history = require('connect-history-api-fallback');
+const cors = require('cors');
 require('dotenv').config();
 
 const app = express();
 app.use(helmet());
 app.use(express.static('public'));
+app.use(
+  cors({
+    origin: 'http://localhost:8080',
+  })
+);
 app.use(cookieParser());
 app.use(express.json());
+app.use(checkUser);
 
 mongoose
   .connect(process.env.MONGGO_URI, {
@@ -30,7 +36,12 @@ app.listen(port, () => {
   console.log(`app listen on ${port}`);
 });
 
-app.get('*', checkUser);
+app.get('/', (req, res) => {
+  console.log(req.user);
+  res.json({
+    message: 'Hallo 🙋‍♂️',
+  });
+});
 
 app.use('/api', productsRoute);
 app.use('/auth', authRoute);

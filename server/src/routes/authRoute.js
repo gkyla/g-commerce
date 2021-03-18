@@ -37,6 +37,10 @@ const createToken = (id) => {
   });
 };
 
+router.get('/', (req, res) => {
+  res.json(req.user);
+});
+
 router.post('/login', async (req, res) => {
   const { email, password } = req.body;
   try {
