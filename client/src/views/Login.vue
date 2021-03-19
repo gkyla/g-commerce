@@ -6,10 +6,10 @@
           <div class="mb-3">
             <label for="email" class="form-label">Email address</label>
             <input
-              type="email"
-              class="form-control"
               id="email"
               v-model="email"
+              type="email"
+              class="form-control"
               aria-describedby="emailHelp"
             />
             <div id="emailHelp" class="form-text">
@@ -19,17 +19,17 @@
           <div class="mb-3">
             <label for="password" class="form-label">Password</label>
             <input
+              id="password"
+              v-model="password"
               type="password"
               class="form-control"
-              v-model="password"
-              id="password"
             />
           </div>
           <div class="mb-3 form-check">
             <input
+              id="exampleCheck1"
               type="checkbox"
               class="form-check-input"
-              id="exampleCheck1"
             />
             <label class="form-check-label" for="exampleCheck1"
               >Check me out</label
@@ -57,14 +57,21 @@ export default {
     function login() {
       console.log(password.value, email.value);
       axios
-        .post("/auth/login", {
-          password: password.value,
-          email: email.value,
-        })
+        .post(
+          "http://localhost:3000/auth/login",
+          {
+            password: password.value,
+            email: email.value,
+          },
+          {
+            withCredentials: true,
+          }
+        )
         .then((response) => {
           console.log(response);
           router.push("/");
-        });
+        })
+        .catch((error) => console.log(error));
     }
 
     return { password, email, login };
@@ -72,5 +79,4 @@ export default {
 };
 </script>
 
-<style>
-</style>
+<style></style>

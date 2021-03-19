@@ -1,7 +1,6 @@
 import { createRouter, createWebHistory } from 'vue-router';
 import Home from '../views/Home.vue';
-import { useStore } from 'vuex';
-const store = useStore();
+import store from '../store';
 
 const routes = [
   {
@@ -21,8 +20,10 @@ const routes = [
   {
     path: '/dashboard',
     name: 'Dashboard',
+    meta: { requiresLogin: true },
+
     component: () =>
-      import(/* webpackChunkName: "about" */ '../views/Dashboard.vue'),
+      import(/* webpackChunkName: "dashboard" */ '../views/Dashboard.vue'),
   },
   {
     path: '/login',
@@ -38,8 +39,16 @@ const router = createRouter({
 });
 
 router.beforeEach((to, from, next) => {
-  if (to.path === '/dashboard' && !store.state.token) {
-    next('/login ');
+  const requiresAuth = to.matched.some((record) => record.meta.requiresLogin);
+
+  const userData = store.state.userData;
+
+  if (requiresAuth) {
+    if (userData) {
+      next();
+    } else {
+      next('/login');
+    }
   } else {
     next();
   }

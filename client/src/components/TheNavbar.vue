@@ -13,18 +13,12 @@
       >
         <span class="navbar-toggler-icon"></span>
       </button>
-      <div class="collapse navbar-collapse" id="navbarNavAltMarkup">
+      <div id="navbarNavAltMarkup" class="collapse navbar-collapse">
         <div class="navbar-nav">
-          <a class="nav-link active" aria-current="page" href="#">Home</a>
-          <a class="nav-link" href="#">Features</a>
-          <a class="nav-link" href="#">Pricing</a>
-          <a
-            class="nav-link disabled"
-            href="#"
-            tabindex="-1"
-            aria-disabled="true"
-            >Disabled</a
-          >
+          <router-link :to="{ name: 'Home' }">Home</router-link>
+          <router-link :to="{ name: 'Dashboard' }">Dashboard</router-link>
+          <router-link :to="{ name: 'Login' }">Login</router-link>
+          <button @click="logoutAccount">Logout</button>
         </div>
       </div>
     </div>
@@ -32,8 +26,32 @@
 </template>
 
 <script>
-export default {};
+import { useRouter } from "vue-router";
+import { useStore } from "vuex";
+import axios from "axios";
+
+export default {
+  setup() {
+    const router = useRouter();
+    const store = useStore();
+
+    function logoutAccount() {
+      console.log("test");
+      axios
+        .get("http://localhost:3000/auth/logout", {
+          withCredentials: true,
+        })
+        .then((res) => {
+          console.log(res); // the Message
+          store.commit("setToken", null);
+          router.push("/login");
+        })
+        .catch((err) => console.log(err));
+    }
+
+    return { logoutAccount };
+  },
+};
 </script>
 
-<style>
-</style>
+<style></style>

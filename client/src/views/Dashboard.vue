@@ -8,21 +8,26 @@
 <script>
 import axios from "axios";
 import { useStore } from "vuex";
+import { computed } from "vue";
 
 export default {
   setup() {
     const store = useStore();
 
-    axios.get("/auth").then((res) => {
-      console.log(res, "from dashboard");
-    });
+    axios
+      .get("http://localhost:3000/auth", {
+        withCredentials: true,
+      })
+      .then((res) => {
+        console.log(res, "from dashboard");
+        store.commit("setToken", res.data);
+      });
 
     return {
-      token: store.state.token,
+      token: computed(() => store.state.userData),
     };
   },
 };
 </script>
 
-<style>
-</style>
+<style></style>
