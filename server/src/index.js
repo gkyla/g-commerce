@@ -7,16 +7,20 @@ const { checkUser } = require('./middlewares/authMiddleware');
 const helmet = require('helmet');
 const cookieParser = require('cookie-parser');
 const cors = require('cors');
+const morgan = require('morgan');
 require('dotenv').config();
 
 const app = express();
 app.use(helmet());
-app.use(express.static('public'));
+// app.use(express.static('public'));
 app.use(
   cors({
     origin: 'http://localhost:8080',
+    credentials: true,
   })
 );
+
+app.use(morgan('tiny'));
 app.use(cookieParser());
 app.use(express.json());
 app.use(checkUser);
@@ -51,5 +55,5 @@ app.use('/auth', authRoute);
 
 // }
 app.get(/.*/, (req, res) => {
-  res.sendFile(path.resolve(__dirname, '../public/index.html'));
+  // res.sendFile(path.resolve(__dirname, '../public/index.html'));
 });

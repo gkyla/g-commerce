@@ -18,9 +18,9 @@ const requireAuthAccess = (req, res, next) => {
 };
 
 const checkUser = (req, res, next) => {
+  console.log('hey lewat sini dong');
   // Get JWT Cookie
   const { jwt: token } = req.cookies;
-  console.log(req.cookies);
   if (token) {
     console.log('ada token');
     jwt.verify(token, process.env.JWT_SECRET, async (err, decodedToken) => {
@@ -42,7 +42,7 @@ const checkUser = (req, res, next) => {
           req.user = userFormat;
           next();
         } catch (error) {
-          console.log(error);
+          console.log(error, 'test');
           next();
         }
       }

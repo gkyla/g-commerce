@@ -78,10 +78,11 @@ router.post('/signup', async (req, res) => {
   }
 });
 
-router.post('/logout', (req, res) => {
-  res.cookie('jwt', '', {
-    maxAge: 1,
-    httpOnly: true,
+router.get('/logout', (req, res) => {
+  console.log('test from logout');
+  res.clearCookie('jwt');
+  res.json({
+    message: 'cookie cleared',
   });
 });
 
