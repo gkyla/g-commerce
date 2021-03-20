@@ -24,14 +24,14 @@ export default {
 
     axios
       .get("http://localhost:3000/auth/", {
-        withCredentials: true,
+        withCredentials: true
       })
-      .then((res) => {
+      .then(res => {
         user.value = res.data;
         store.commit("setToken", res.data);
       });
 
     return { user, userData };
-  },
+  }
 };
 </script>

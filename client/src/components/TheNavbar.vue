@@ -1,6 +1,6 @@
 <template>
   <nav class="navbar navbar-expand-lg navbar-light bg-light">
-    <div class="container-fluid">
+    <div class="container">
       <a class="navbar-brand" href="#">Navbar</a>
       <button
         class="navbar-toggler"
@@ -14,11 +14,17 @@
         <span class="navbar-toggler-icon"></span>
       </button>
       <div id="navbarNavAltMarkup" class="collapse navbar-collapse">
-        <div class="navbar-nav">
-          <router-link :to="{ name: 'Home' }">Home</router-link>
-          <router-link :to="{ name: 'Dashboard' }">Dashboard</router-link>
-          <router-link :to="{ name: 'Login' }">Login</router-link>
-          <button @click="logoutAccount">Logout</button>
+        <div class="navbar-nav ms-auto">
+          <router-link class="nav-link" :to="{ name: 'Home' }"
+            >Home</router-link
+          >
+          <router-link class="nav-link" :to="{ name: 'Dashboard' }"
+            >Dashboard</router-link
+          >
+          <router-link class="nav-link" :to="{ name: 'Login' }"
+            >Login</router-link
+          >
+          <button class="nav-link" @click="logoutAccount">Logout</button>
         </div>
       </div>
     </div>
@@ -39,18 +45,18 @@ export default {
       console.log("test");
       axios
         .get("http://localhost:3000/auth/logout", {
-          withCredentials: true,
+          withCredentials: true
         })
-        .then((res) => {
+        .then(res => {
           console.log(res); // the Message
           store.commit("setToken", null);
           router.push("/login");
         })
-        .catch((err) => console.log(err));
+        .catch(err => console.log(err));
     }
 
     return { logoutAccount };
-  },
+  }
 };
 </script>
 

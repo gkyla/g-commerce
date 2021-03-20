@@ -10,8 +10,8 @@ import TheNavbar from "./components/TheNavbar";
 
 export default {
   components: {
-    TheNavbar,
-  },
+    TheNavbar
+  }
 };
 </script>
 

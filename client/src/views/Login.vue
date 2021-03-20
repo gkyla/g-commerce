@@ -61,21 +61,21 @@ export default {
           "http://localhost:3000/auth/login",
           {
             password: password.value,
-            email: email.value,
+            email: email.value
           },
           {
-            withCredentials: true,
+            withCredentials: true
           }
         )
-        .then((response) => {
+        .then(response => {
           console.log(response);
           router.push("/");
         })
-        .catch((error) => console.log(error));
+        .catch(error => console.log(error));
     }
 
     return { password, email, login };
-  },
+  }
 };
 </script>
 
