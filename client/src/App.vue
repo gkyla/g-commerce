@@ -1,23 +1,52 @@
 <template>
   <div id="root">
     <TheNavbar />
-    <router-view />
+    <!-- <router-view v-slot="{ Component }">
+      <transition name="fade" mode="out-in">
+        <component :is="Component" />
+      </transition>
+    </router-view> -->
+    <router-view v-if="!isLoading"></router-view>
+    <div v-if="isLoading">
+      <img src="./assets/loading.gif" alt="Loading" />
+    </div>
   </div>
 </template>
 
 <script>
+import { computed } from "vue";
+import { useStore } from "vuex";
 import TheNavbar from "./components/TheNavbar";
+import { checkUser } from "./utilites/auth";
 
 export default {
   components: {
     TheNavbar
+  },
+  setup() {
+    const store = useStore();
+
+    return { isLoading: computed(() => store.state.isLoading) };
   }
 };
 </script>
 
 <style>
+.fade-enter-active,
+.fade-leave-active {
+  transition: 0.2s ease all;
+}
+.fade-enter-from,
+.fade-leave-to {
+  opacity: 0;
+}
+.fade-enter-to,
+.fade-leave-from {
+  opacity: 1;
+}
+
 #app {
-  font-family: Avenir, Helvetica, Arial, sans-serif;
+  font-family: "Lato", sans-serif;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
   text-align: center;
@@ -33,7 +62,7 @@ export default {
   color: #2c3e50;
 }
 
-#nav a.router-link-exact-active {
-  color: #42b983;
+a.router-link-exact-active {
+  color: #42b983 !important;
 }
 </style>

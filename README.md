@@ -2,10 +2,14 @@
 
 ## Client 🎨
 
-- [ ] Hide login button ( **if Logged in** )
-- [ ] Show Logout button ( **if Logged in** )
-- [ ] Show Dashboard button/link on the navbar ( **if logged in** )
+- [x] Add font style
+  - [x] Font-awesome ( cdn )
+  - [x] Google fonts ( cdn )
+- [x] Hide login button ( **if Logged in** )
+- [x] Show Logout button ( **if Logged in** )
+- [x] Show Dashboard button/link on the navbar ( **if logged in** )
 - [ ] Show Error message when Signup/Login failed
+
 - [ ] Restrict Route ( Client Side ) 🚫
 
   - [ ] **If not logged in**
@@ -25,3 +29,5 @@
 ## Optional 🤷‍♂️
 
 - [ ] Add upload image / statice file service
+- [ ] User can open marketplace
+- [ ] Add rate-limitng

@@ -6,27 +6,19 @@
 </template>
 
 <script>
-import axios from "axios";
 import { useStore } from "vuex";
 import { computed } from "vue";
+import { checkUser } from "../utilites/auth";
 
 export default {
   setup() {
     const store = useStore();
-
-    axios
-      .get("http://localhost:3000/auth", {
-        withCredentials: true,
-      })
-      .then((res) => {
-        console.log(res, "from dashboard");
-        store.commit("setToken", res.data);
-      });
+    // checkUser();
 
     return {
-      token: computed(() => store.state.userData),
+      token: computed(() => store.state.userData)
     };
-  },
+  }
 };
 </script>
 

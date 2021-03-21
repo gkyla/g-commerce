@@ -1,6 +1,8 @@
 import { createRouter, createWebHistory } from "vue-router";
 import Home from "../views/Home.vue";
 import store from "../store";
+import { checkUser } from "../utilites/auth";
+import { computed } from "@vue/runtime-core";
 
 const routes = [
   {
@@ -11,6 +13,7 @@ const routes = [
   {
     path: "/about",
     name: "About",
+    meta: { requiresLogin: true },
     // route level code-splitting
     // this generates a separate chunk (about.[hash].js) for this route
     // which is lazy-loaded when the route is visited.
@@ -29,7 +32,18 @@ const routes = [
     path: "/login",
     name: "Login",
     component: () =>
-      import(/* webpackChunkName: "about" */ "../views/Login.vue")
+      import(/* webpackChunkName: "login" */ "../views/Login.vue")
+  },
+  {
+    path: "/signup",
+    name: "Signup",
+    component: () =>
+      import(/* webpackChunkName: "signUp" */ "../views/Signup.vue")
+  },
+  {
+    path: "/:pathMatch(.*)*",
+    component: () =>
+      import(/* webpackChunkName: "signUp" */ "../views/NotFound.vue")
   }
 ];
 
@@ -40,18 +54,25 @@ const router = createRouter({
 
 router.beforeEach((to, from, next) => {
   const requiresAuth = to.matched.some(record => record.meta.requiresLogin);
+  const userData = computed(() => store.state.userData);
+  // Check user every changing a route
+  console.log("test");
 
-  const userData = store.state.userData;
-
-  if (requiresAuth) {
-    if (userData) {
-      next();
+  store.commit("setLoading", false);
+  if (!requiresAuth) return next();
+  checkUser().then(() => {
+    if (requiresAuth) {
+      if (userData.value) {
+        next();
+      } else {
+        next("/login");
+      }
     } else {
-      next("/login");
+      next();
     }
-  } else {
-    next();
-  }
+  });
+
+  // TODO : Cari tau mau checkUser dari vuex atau dari req fetch/axios ke server
 });
 
 export default router;

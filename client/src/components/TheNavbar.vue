@@ -1,5 +1,5 @@
 <template>
-  <nav class="navbar navbar-expand-lg navbar-light bg-light">
+  <nav class="navbar navbar-expand-lg navbar-light bg-white shadow-sm">
     <div class="container">
       <a class="navbar-brand" href="#">Navbar</a>
       <button
@@ -18,13 +18,42 @@
           <router-link class="nav-link" :to="{ name: 'Home' }"
             >Home</router-link
           >
-          <router-link class="nav-link" :to="{ name: 'Dashboard' }"
+          <router-link
+            v-if="isLoggedIn"
+            class="nav-link"
+            :to="{ name: 'Dashboard' }"
             >Dashboard</router-link
           >
-          <router-link class="nav-link" :to="{ name: 'Login' }"
-            >Login</router-link
+          <router-link
+            v-if="isLoggedIn"
+            class="nav-link"
+            :to="{ name: 'About' }"
+            >About</router-link
           >
-          <button class="nav-link" @click="logoutAccount">Logout</button>
+
+          <div
+            class="d-flex flex-sm-column flex-md-row justify-content-center ms-sm-0 ms-md-3"
+          >
+            <router-link
+              v-if="!isLoggedIn"
+              class="nav-link"
+              :to="{ name: 'Login' }"
+              >Login</router-link
+            >
+            <router-link
+              v-if="!isLoggedIn"
+              class="btn btn-outline-danger ms-sm-0 ms-md-1"
+              :to="{ name: 'Signup' }"
+              ><i class="far fa-user"></i> Signup</router-link
+            >
+            <button
+              v-if="isLoggedIn"
+              class="btn btn-outline-danger ms-sm-0 ms-md-1"
+              @click="logoutAccount"
+            >
+              Logout
+            </button>
+          </div>
         </div>
       </div>
     </div>
@@ -35,6 +64,7 @@
 import { useRouter } from "vue-router";
 import { useStore } from "vuex";
 import axios from "axios";
+import { isLoggedIn } from "../utilites/auth";
 
 export default {
   setup() {
@@ -55,7 +85,7 @@ export default {
         .catch(err => console.log(err));
     }
 
-    return { logoutAccount };
+    return { logoutAccount, isLoggedIn };
   }
 };
 </script>
