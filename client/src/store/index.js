@@ -2,8 +2,8 @@ import { createStore } from "vuex";
 
 export default createStore({
   state: {
-    userData: null,
-    isLoading: true
+    userData: {},
+    isLoading: false
   },
   mutations: {
     setToken(state, payload) {

@@ -46,12 +46,14 @@
 import { reactive, ref } from "vue";
 import axios from "axios";
 import { useRouter } from "vue-router";
+import { useStore } from "vuex";
 
 export default {
   setup() {
     const password = ref(null);
     const email = ref(null);
     const router = useRouter();
+    const store = useStore();
     // Todo handle proxy
 
     function login() {
@@ -68,7 +70,7 @@ export default {
           }
         )
         .then(response => {
-          console.log(response);
+          store.commit("setToken", response.data);
           router.push("/");
         })
         .catch(error => console.log(error));

@@ -38,6 +38,7 @@ const createToken = (id) => {
 };
 
 router.get('/', (req, res) => {
+  console.log(req.user)
   res.json(req.user);
 });
 
@@ -63,7 +64,7 @@ router.post('/login', async (req, res) => {
 
 router.post('/signup', async (req, res) => {
   try {
-    const user = await User.create(req.body); // Shortcut for new User(doc).save()
+    const user = await User.create({...req.body, admin: false}); // Shortcut for new User(doc).save()
     const token = createToken(user._id);
 
     res.cookie('jwt', token, {

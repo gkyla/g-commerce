@@ -13,7 +13,6 @@
 import axios from "axios";
 import { computed, nextTick, onMounted, ref } from "vue";
 import { useStore } from "vuex";
-import { checkUser } from "../utilites/auth";
 
 export default {
   name: "Home",
@@ -22,16 +21,6 @@ export default {
     const user = ref(null);
     const store = useStore();
     const userData = computed(() => store.state.userData);
-    // checkUser();
-
-    // axios
-    //   .get("http://localhost:3000/auth/", {
-    //     withCredentials: true
-    //   })
-    //   .then(res => {
-    //     user.value = res.data;
-    //     store.commit("setToken", res.data);
-    //   });
 
     return { user, userData };
   }

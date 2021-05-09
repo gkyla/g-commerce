@@ -12,7 +12,6 @@ require('dotenv').config();
 
 const app = express();
 app.use(helmet());
-// app.use(express.static('public'));
 app.use(
   cors({
     origin: 'http://localhost:8080',
@@ -44,6 +43,7 @@ app.get('/', (req, res) => {
   console.log(req.user);
   res.json({
     message: 'Hallo 🙋‍♂️',
+    user : req.user
   });
 });
 

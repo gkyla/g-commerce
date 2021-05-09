@@ -52,26 +52,16 @@ const router = createRouter({
   routes
 });
 
-router.beforeEach((to, from, next) => {
+router.beforeEach(async (to, from, next) => {
   const requiresAuth = to.matched.some(record => record.meta.requiresLogin);
   const userData = computed(() => store.state.userData);
   // Check user every changing a route
-  console.log("test");
-
-  store.commit("setLoading", false);
-  if (!requiresAuth) return next();
-  checkUser().then(() => {
-    if (requiresAuth) {
-      if (userData.value) {
-        next();
-      } else {
-        next("/login");
-      }
-    } else {
-      next();
-    }
-  });
-
+  if (!userData.value) {
+    await checkUser();
+    return next();
+  }
+  await checkUser();
+  next();
   // TODO : Cari tau mau checkUser dari vuex atau dari req fetch/axios ke server
 });
 

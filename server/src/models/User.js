@@ -16,6 +16,9 @@ const userSchema = new Schema({
     required: [true, 'Please enter password'],
     minlength: [6, 'Minimum length is 6 character'],
   },
+  admin: {
+    type: Boolean
+  }
 });
 
 userSchema.pre('save', async function (next) {
@@ -27,7 +30,6 @@ userSchema.pre('save', async function (next) {
 
 userSchema.statics.login = async function (email, password) {
   const user = await this.findOne({ email }); // find one document
-  console.log(user);
   if (user) {
     const auth = await bcrypt.compare(password, user.password);
     if (auth) {

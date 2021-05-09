@@ -19,7 +19,7 @@
             >Home</router-link
           >
           <router-link
-            v-if="isLoggedIn"
+            v-if="isLoggedIn && isAdmin"
             class="nav-link"
             :to="{ name: 'Dashboard' }"
             >Dashboard</router-link
@@ -30,7 +30,6 @@
             :to="{ name: 'About' }"
             >About</router-link
           >
-
           <div
             class="d-flex flex-sm-column flex-md-row justify-content-center ms-sm-0 ms-md-3"
           >
@@ -46,6 +45,7 @@
               :to="{ name: 'Signup' }"
               ><i class="far fa-user"></i> Signup</router-link
             >
+
             <button
               v-if="isLoggedIn"
               class="btn btn-outline-danger ms-sm-0 ms-md-1"
@@ -65,11 +65,13 @@ import { useRouter } from "vue-router";
 import { useStore } from "vuex";
 import axios from "axios";
 import { isLoggedIn } from "../utilites/auth";
+import { computed } from "vue";
 
 export default {
   setup() {
     const router = useRouter();
     const store = useStore();
+    const isAdmin = computed(() => store.state.userData.admin);
 
     function logoutAccount() {
       console.log("test");
@@ -85,7 +87,7 @@ export default {
         .catch(err => console.log(err));
     }
 
-    return { logoutAccount, isLoggedIn };
+    return { logoutAccount, isLoggedIn, isAdmin };
   }
 };
 </script>

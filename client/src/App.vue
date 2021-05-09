@@ -24,8 +24,8 @@ export default {
     TheNavbar
   },
   setup() {
+    checkUser();
     const store = useStore();
-
     return { isLoading: computed(() => store.state.isLoading) };
   }
 };

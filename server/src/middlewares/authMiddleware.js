@@ -18,25 +18,23 @@ const requireAuthAccess = (req, res, next) => {
 };
 
 const checkUser = (req, res, next) => {
-  console.log('hey lewat sini dong');
-  // Get JWT Cookie
   const { jwt: token } = req.cookies;
   if (token) {
-    console.log('ada token');
     jwt.verify(token, process.env.JWT_SECRET, async (err, decodedToken) => {
       if (err) {
         console.log(err.message, 'wow ini dari check user');
+        
         // should un inject the data to front End
         next();
       } else {
         // If verified, get user info
         try {
           const user = await User.findById(decodedToken.id);
-
+          console.log(user)
           const userFormat = {
             _id: user._id,
             email: user.email,
-            token: token,
+            admin: user.admin
           };
 
           req.user = userFormat;
