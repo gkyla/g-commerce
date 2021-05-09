@@ -1,15 +1,15 @@
 <template>
   <div id="root">
     <TheNavbar />
-    <!-- <router-view v-slot="{ Component }">
-      <transition name="fade" mode="out-in">
-        <component :is="Component" />
-      </transition>
-    </router-view> -->
-    <router-view v-if="!isLoading"></router-view>
-    <div v-if="isLoading">
-      <img src="./assets/loading.gif" alt="Loading" />
-    </div>
+    <router-view v-if="!isLoading && !initialLoading"></router-view>
+    <transition name="fade" mode="out-in">
+      <div
+        v-if="initialLoading"
+        class="position-absolute top-0 bottom-0 start-0 end-0 bg-light"
+      >
+        <img src="./assets/loading-gear.svg" alt="Loading" />
+      </div>
+    </transition>
   </div>
 </template>
 
@@ -24,9 +24,13 @@ export default {
     TheNavbar
   },
   setup() {
-    checkUser();
+    // checkUser();
     const store = useStore();
-    return { isLoading: computed(() => store.state.isLoading) };
+    const initialLoading = computed(() => store.state.initialLoading);
+    return {
+      isLoading: computed(() => store.state.isLoading),
+      initialLoading
+    };
   }
 };
 </script>

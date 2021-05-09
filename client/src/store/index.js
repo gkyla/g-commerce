@@ -2,7 +2,8 @@ import { createStore } from "vuex";
 
 export default createStore({
   state: {
-    userData: {},
+    userData: null, // need to be optional chaining
+    initialLoading: true,
     isLoading: false
   },
   mutations: {
@@ -11,6 +12,9 @@ export default createStore({
     },
     setLoading(state, payload) {
       state.isLoading = payload;
+    },
+    setInitialLoading(state, status) {
+      state.initialLoading = status;
     }
   },
   actions: {},

@@ -1,7 +1,7 @@
 import { createRouter, createWebHistory } from "vue-router";
 import Home from "../views/Home.vue";
 import store from "../store";
-import { checkUser } from "../utilites/auth";
+import { checkUser, isLoggedIn } from "../utilites/auth";
 import { computed } from "@vue/runtime-core";
 
 const routes = [
@@ -53,16 +53,31 @@ const router = createRouter({
 });
 
 router.beforeEach(async (to, from, next) => {
-  const requiresAuth = to.matched.some(record => record.meta.requiresLogin);
-  const userData = computed(() => store.state.userData);
+  const requiresLogin = to.matched.some(record => record.meta.requiresLogin);
+  const initialLoading = computed(() => store.state.initialLoading);
   // Check user every changing a route
-  if (!userData.value) {
+
+  if (initialLoading.value) {
     await checkUser();
-    return next();
   }
-  await checkUser();
+
+  if (requiresLogin) {
+    if (!isLoggedIn.value) {
+      return next("/login");
+    }
+    return next();
+  } else {
+    if (to.path === "/login") {
+      console.log("wow");
+      return next();
+    }
+    if (to.path === "/signup") {
+      return next();
+    }
+
+    checkUser();
+  }
   next();
-  // TODO : Cari tau mau checkUser dari vuex atau dari req fetch/axios ke server
 });
 
 export default router;

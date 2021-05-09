@@ -71,7 +71,11 @@ export default {
   setup() {
     const router = useRouter();
     const store = useStore();
-    const isAdmin = computed(() => store.state.userData.admin);
+    /* 
+      always use optional chaining because the initial value of the 
+      userData is null on the vuex store
+    */
+    const isAdmin = computed(() => store.state.userData?.admin);
 
     function logoutAccount() {
       console.log("test");
