@@ -57,8 +57,11 @@
           <router-link
             v-if="isLoggedIn"
             class="nav-link"
-            :to="{ name: 'About' }"
-            >About</router-link
+            :to="{ name: 'Account' }"
+            >Akun</router-link
+          >
+          <router-link v-if="isLoggedIn" class="nav-link" :to="{ name: 'Cart' }"
+            >Cart</router-link
           >
           <div
             class="d-flex flex-sm-column flex-md-row justify-content-center ms-sm-0 ms-md-3"
@@ -108,7 +111,6 @@ export default {
     const isAdmin = computed(() => store.state.userData?.admin);
 
     function logoutAccount() {
-      console.log("test");
       axios
         .get("http://localhost:3000/auth/logout", {
           withCredentials: true
