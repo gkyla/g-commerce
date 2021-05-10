@@ -54,7 +54,6 @@ export default {
     const email = ref(null);
     const router = useRouter();
     const store = useStore();
-    // Todo handle proxy
 
     function login() {
       console.log(password.value, email.value);
