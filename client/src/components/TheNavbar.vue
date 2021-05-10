@@ -14,6 +14,36 @@
         <span class="navbar-toggler-icon"></span>
       </button>
       <div id="navbarNavAltMarkup" class="collapse navbar-collapse">
+        <li class="nav-link dropdown">
+          <a
+            id="navbarDarkDropdownMenuLink"
+            class="nav-link dropdown-toggle text-black-50"
+            href="#"
+            role="button"
+            data-bs-toggle="dropdown"
+            aria-expanded="false"
+          >
+            Kategori
+          </a>
+          <div
+            class="dropdown-menu dropdown-menu-dark d-flex"
+            aria-labelledby="navbarDarkDropdownMenuLink"
+          >
+            <div class="row d-flex dropdown-item">
+              <div class="col-md-4 position-relative">
+                <li>test</li>
+                <li>test</li>
+              </div>
+              <div class="col-md-8 position-relative">
+                <p class="">
+                  Lorem ipsum dolor sit amet consectetur adipisicing elit.
+                  Assumenda veniam maiores id. Doloremque dolorem voluptatem
+                  error eius quis porro qui.
+                </p>
+              </div>
+            </div>
+          </div>
+        </li>
         <div class="navbar-nav ms-auto">
           <router-link class="nav-link" :to="{ name: 'Home' }"
             >Home</router-link
